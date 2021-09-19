@@ -1,6 +1,6 @@
 <template>
-  <button v-if="githubAuth" class="btn btn-dark ms-auto" type="button" @click="login">
-    {{ $t('login_with') }}
+  <button v-if="githubAuth" class="button is-dark" type="button" @click="login">
+    {{ $t('login_with') }}&nbsp;
     <fa :icon="['fab', 'github']" />
   </button>
 </template>
@@ -11,7 +11,7 @@ export default {
 
   computed: {
     githubAuth: () => window.config.githubAuth,
-    url: () => '/api/oauth/github'
+    url: () => `/api/oauth/github`
   },
 
   mounted () {

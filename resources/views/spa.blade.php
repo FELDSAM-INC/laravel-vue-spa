@@ -9,7 +9,7 @@ $appJs = mix('dist/js/app.js');
 $appCss = mix('dist/css/app.css');
 @endphp
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" class="has-background-white-ter">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,8 +18,8 @@ $appCss = mix('dist/css/app.css');
 
   <link rel="stylesheet" href="{{ (str_starts_with($appCss, '//') ? 'http:' : '').$appCss }}">
 </head>
-<body>
-  <div id="app"></div>
+<body >
+  <div id="app" ></div>
 
   <script>
     window.config = @json($config);

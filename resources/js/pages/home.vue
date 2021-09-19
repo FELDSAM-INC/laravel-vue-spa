@@ -1,11 +1,11 @@
 <template>
-  <div class="row">
+  <section class="section">
     <div class="col-lg-10 m-auto">
       <card :title="$t('home')">
         {{ $t('you_are_logged_in') }}
       </card>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

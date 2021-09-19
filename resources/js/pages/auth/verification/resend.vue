@@ -1,31 +1,27 @@
 <template>
-  <div class="row">
-    <div class="col-lg-7 m-auto">
+  <section class="section">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
       <card :title="$t('verify_email')">
         <form @submit.prevent="send" @keydown="form.onKeydown($event)">
-          <alert-success :form="form" :message="status" />
-
+            <b-message v-if="status" title="Success" type="is-success" aria-close-label="Close message">
+              {{ status }}
+            </b-message>
           <!-- Email -->
-          <div class="mb-3 row">
-            <label class="col-md-3 col-form-label text-md-end">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
-            </div>
-          </div>
-
+            <b-field :label="$t('email')" :message=" form.errors.has('email') ? form.errors.errors.email:null"
+                     :type="{ 'is-danger': form.errors.has('email') }"
+            >
+              <b-input v-model="form.email" type="email" name="email" />
+            </b-field>
           <!-- Submit Button -->
-          <div class="mb-3 row">
-            <div class="col-md-9 ms-md-auto">
-              <v-button :loading="form.busy">
+            <b-button :loading="form.busy" native-type="submit">
                 {{ $t('send_verification_link') }}
-              </v-button>
-            </div>
-          </div>
+            </b-button>
         </form>
       </card>
     </div>
   </div>
+  </section>
 </template>
 
 <script>

@@ -18,4 +18,4 @@ library.add(
   faUser, faLock, faSignOutAlt, faCog, faGithub
 )
 
-Vue.component('Fa', FontAwesomeIcon)
+Vue.component('vue-fontawesome', FontAwesomeIcon)

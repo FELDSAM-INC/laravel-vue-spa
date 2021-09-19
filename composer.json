@@ -1,6 +1,6 @@
 {
-    "name": "cretueusebiu/laravel-vue-spa",
-    "description": "A Laravel-Vue SPA starter project template.",
+    "name": "feldsam-inc/laravel-vue-spa",
+    "description": "A Laravel-Buefy SPA starter project template.",
     "keywords": ["spa", "laravel", "vue"],
     "license": "MIT",
     "type": "project",

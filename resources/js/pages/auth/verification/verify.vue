@@ -1,28 +1,28 @@
 <template>
-  <div class="row">
-    <div class="col-lg-7 m-auto">
+  <section class="section">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
       <card :title="$t('verify_email')">
         <template v-if="success">
-          <div class="alert alert-success" role="alert">
+            <div class="notification is-success" role="alert">
             {{ success }}
           </div>
-
-          <router-link :to="{ name: 'login' }" class="btn btn-primary">
+            <b-button tag="router-link" type="is-success" :to="{ name: 'login' }" outlined>
             {{ $t('login') }}
-          </router-link>
+            </b-button>
         </template>
         <template v-else>
-          <div class="alert alert-danger" role="alert">
+            <div class="notification is-danger" role="alert">
             {{ error || $t('failed_to_verify_email') }}
           </div>
-
-          <router-link :to="{ name: 'verification.resend' }" class="small float-end">
+            <b-button tag="router-link" :to="{ name: 'verification.resend' }" type="is-danger" outlined>
             {{ $t('resend_verification_link') }}
-          </router-link>
+            </b-button>
         </template>
       </card>
     </div>
   </div>
+  </section>
 </template>
 
 <script>

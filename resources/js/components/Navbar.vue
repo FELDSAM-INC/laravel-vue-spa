@@ -1,78 +1,68 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
-    <div class="container">
-      <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
+  <b-navbar wrapper-class="container">
+    <template slot="brand">
+      <b-navbar-item tag="router-link" :to="{ name: user ? 'home' : 'welcome' }">
         {{ appName }}
-      </router-link>
+      </b-navbar-item>
+    </template>
+    <template slot="start">
+      <b-navbar-dropdown :label="locales[locale]">
+        <b-navbar-item v-for="(value, key) in locales" :key="key" tag="a" href="#" @click.native="setLocale(key)">
+          {{ value }}
+        </b-navbar-item>
+      </b-navbar-dropdown>
+      <!-- <b-navbar-item ></b-navbar-item>-->
+    </template>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
-        <span class="navbar-toggler-icon" />
-      </button>
+    <template v-if="user" slot="end">
+      <!-- Authenticated -->
+      <b-dropdown>
+        <a slot="trigger" class="navbar-item navbar-link" role="button">
+          <figure class="image is-24x24">
+            <img class="is-rounded" :src="user.photo_url" :alt="user.name">
+          </figure>
+          &nbsp;<span>{{ user.name }}</span>
+        </a>
+        <router-link :to="{ name: 'settings.profile' }" class="dropdown-item">
+          <span class="icon-text">
+            <b-icon icon="cog" size="is-small" />
+            <span>{{ $t('settings') }}</span>
+          </span>
+        </router-link>
+        <a href="#" @click.prevent="logout" class="dropdown-item">
+          <span class="icon-text">
+            <b-icon icon="sign-out-alt" size="is-small" />
+            <span>{{ $t('logout') }}</span>
+          </span>
+        </a>
+      </b-dropdown>
+    </template>
+    <!-- Guest -->
+    <template v-else slot="end">
+      <b-navbar-item tag="router-link" :to="{ name: 'login' }" class="navbar-item">
+        {{ $t('login') }}
+      </b-navbar-item>
 
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="navbar-nav">
-          <locale-dropdown />
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li> -->
-        </ul>
-
-        <ul class="navbar-nav ms-auto">
-          <!-- Authenticated -->
-          <li v-if="user" class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-dark"
-               href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            >
-              <img :src="user.photo_url" class="rounded-circle profile-photo me-1">
-              {{ user.name }}
-            </a>
-            <div class="dropdown-menu">
-              <router-link :to="{ name: 'settings.profile' }" class="dropdown-item ps-3">
-                <fa icon="cog" fixed-width />
-                {{ $t('settings') }}
-              </router-link>
-
-              <div class="dropdown-divider" />
-              <a href="#" class="dropdown-item ps-3" @click.prevent="logout">
-                <fa icon="sign-out-alt" fixed-width />
-                {{ $t('logout') }}
-              </a>
-            </div>
-          </li>
-          <!-- Guest -->
-          <template v-else>
-            <li class="nav-item">
-              <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
-                {{ $t('login') }}
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link :to="{ name: 'register' }" class="nav-link" active-class="active">
-                {{ $t('register') }}
-              </router-link>
-            </li>
-          </template>
-        </ul>
-      </div>
-    </div>
-  </nav>
+      <b-navbar-item tag="router-link" :to="{ name: 'register' }" class="navbar-item">
+        {{ $t('register') }}
+      </b-navbar-item>
+    </template>
+  </b-navbar>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import LocaleDropdown from './LocaleDropdown'
+import { loadMessages } from '~/plugins/i18n'
 
 export default {
-  components: {
-    LocaleDropdown
-  },
-
   data: () => ({
     appName: window.config.appName
   }),
 
   computed: mapGetters({
-    user: 'auth/user'
+    user: 'auth/user',
+    locale: 'lang/locale',
+    locales: 'lang/locales'
   }),
 
   methods: {
@@ -82,19 +72,13 @@ export default {
 
       // Redirect to login.
       this.$router.push({ name: 'login' })
+    },
+    setLocale (locale) {
+      if (this.$i18n.locale !== locale) {
+        loadMessages(locale)
+        this.$store.dispatch('lang/setLocale', { locale })
+      }
     }
   }
 }
 </script>
-
-<style scoped>
-.profile-photo {
-  width: 2rem;
-  height: 2rem;
-  margin: -.375rem 0;
-}
-
-.container {
-  max-width: 1100px;
-}
-</style>

@@ -1,56 +1,48 @@
 <template>
-  <div class="row">
-    <div class="col-lg-7 m-auto">
+  <section class="section">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
       <card v-if="mustVerifyEmail" :title="$t('register')">
-        <div class="alert alert-success" role="alert">
+          <div class="notification is-success" role="alert">
           {{ $t('verify_email_address') }}
         </div>
       </card>
       <card v-else :title="$t('register')">
         <form @submit.prevent="register" @keydown="form.onKeydown($event)">
           <!-- Name -->
-          <div class="mb-3 row">
-            <label class="col-md-3 col-form-label text-md-end">{{ $t('name') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
-              <has-error :form="form" field="name" />
-            </div>
-          </div>
+            <b-field :label="$t('name')" :message=" form.errors.has('name') ? form.errors.errors.name:null"
+                     :type="{ 'is-danger': form.errors.has('name') }"
+            >
+              <b-input v-model="form.name" type="text" name="name"/>
+            </b-field>
 
           <!-- Email -->
-          <div class="mb-3 row">
-            <label class="col-md-3 col-form-label text-md-end">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
-            </div>
-          </div>
+            <b-field :label="$t('email')" :message=" form.errors.has('email') ? form.errors.errors.email:null"
+                     :type="{ 'is-danger': form.errors.has('email') }"
+            >
+              <b-input v-model="form.email" type="email" name="email" />
+            </b-field>
 
           <!-- Password -->
-          <div class="mb-3 row">
-            <label class="col-md-3 col-form-label text-md-end">{{ $t('password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-              <has-error :form="form" field="password" />
-            </div>
-          </div>
+            <b-field :label="$t('password')" :message=" form.errors.has('password') ? form.errors.errors.password:null"
+                     :type="{ 'is-danger': form.errors.has('password') }"
+            >
+              <b-input v-model="form.password" type="password" name="password" />
+            </b-field>
 
           <!-- Password Confirmation -->
-          <div class="mb-3 row">
-            <label class="col-md-3 col-form-label text-md-end">{{ $t('confirm_password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control" type="password" name="password_confirmation">
-              <has-error :form="form" field="password_confirmation" />
-            </div>
-          </div>
+            <b-field :label="$t('confirm_password')" :message=" form.errors.has('password_confirmation') ? form.errors.errors.password_confirmation:null"
+                     :type="{ 'is-danger': form.errors.has('password_confirmation') }"
+            >
+              <b-input v-model="form.password_confirmation" type="password" name="password_confirmation" />
+            </b-field>
 
           <div class="mb-3 row">
             <div class="col-md-7 offset-md-3 d-flex">
               <!-- Submit Button -->
-              <v-button :loading="form.busy">
+                <b-button :loading="form.busy" native-type="submit">
                 {{ $t('register') }}
-              </v-button>
-
+                </b-button>
               <!-- GitHub Register Button -->
               <login-with-github />
             </div>
@@ -59,6 +51,7 @@
       </card>
     </div>
   </div>
+  </section>
 </template>
 
 <script>
